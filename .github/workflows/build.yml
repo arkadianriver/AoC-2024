@@ -1,0 +1,27 @@
+name: Advent of Code build
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+permissions:
+  contents: write
+
+  
+jobs:
+  build:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out my code 🎄
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Run edited apps and build HTML 🔧
+        run: |
+          ./build
+      - name: Deploy to Pages 🚀
+        uses: JamesIves/github-pages-deploy-action@releases/v4
+        with:
+          branch: gh-pages
+          folder: out

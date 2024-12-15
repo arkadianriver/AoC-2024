@@ -1,0 +1,4 @@
+<plugin id="com.arkadianriver.aoc">
+	<feature extension="ant.import" file="build.xml"/>
+	<feature extension="depend.preprocess.pre" value="aoc"/>
+</plugin>

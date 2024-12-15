@@ -1,0 +1,22 @@
+#!/usr/bin/bash
+
+thisdir=`pwd`
+
+case $1 in
+	#-i)
+	#	pushd plugins
+	#	rm *.zip
+	#	zip -r com.arkadianriver.aoc.zip com.arkadianriver.aoc/
+	#	dita uninstall com.arkadianriver.aoc
+	#	dita install com.arkadianriver.aoc.zip
+	#	popd
+	#	;;
+	-d)
+		dita -i src/aoc-2024.ditamap -f html5 -v -l tmp/out.log \
+		     --html5.toc.generate=no --nav-toc=full --args.output.base=aoc-2024 --args.copycss=yes --args.cssroot=$thisdir/src --args.css=aoc.css \
+		     -Dday=$2
+		;;
+	*)	#printf 'usage: build [-i|-d <day>]\nwhere:\n  -i       re-installs an updated plugin\n  -d <day> runs XSL for that day\n'
+		printf 'usage: build [-d <day>]\nwhere:\n  -d <day> Runs the XSL template for that day\n'
+		;;
+esac

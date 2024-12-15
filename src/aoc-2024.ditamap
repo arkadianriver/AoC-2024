@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<!DOCTYPE map PUBLIC "-//OASIS//DTD DITA Map//EN" "map.dtd">
+<map id="aoc-2024">
+    <title>Advent of Code 2024</title>
+    <topicref href="index.dita"/>
+    <mapref href="topics/map.ditamap"/>
+</map>

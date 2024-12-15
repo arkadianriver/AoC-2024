@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project default="aoc">
+
+    <property name="day" value="00"/>
+
+    <dirname property="srcdir" file="${args.input}"/>
+    
+    <path id="saxon.path">
+        <pathelement location="${dita.dir}/lib/Saxon-HE-12.4.jar"/>
+        <pathelement location="${dita.dir}/lib/xmlresolver-5.2.3.jar"/>
+    </path>
+
+    <target name="aoc">
+        <echo>&#x0a;==> com.arkadianriver.aoc "2024 Advent of Code" plugin processing</echo>
+        <delete file="${srcdir}/topics/day-${day}.dita"/>
+        <java classname="net.sf.saxon.Transform" classpathref="saxon.path" failonerror="true">
+            <arg line="-catalog:${dita.dir}/catalog-dita.xml"/>
+            <arg line="-xsl:${srcdir}/xsl/day-${day}.xsl"/>
+            <arg line="-it"/>
+            <arg line="srcdir=${srcdir}"/>
+            <arg line="day=${day}"/>
+        </java>
+    </target>
+
+</project>
