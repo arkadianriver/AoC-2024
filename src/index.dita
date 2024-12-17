@@ -6,12 +6,9 @@
 	Find out more about it at <xref scope="external" href="https://adventofcode.com/2024/about">adventofcode.com</xref>.</shortdesc>
 	<body>
 	<p>Now that I'm working full-time with XSLT, I'd like to use it to solve this year's challenges. I need the practice, so let's see
-	how far I can take this language. I'm certain I'll need lots of help and will most likely get stumped more often than not.</p>
-	<p>Michael Kay has said that now with 3.0, XSLT is a complete language, and that it can be used to solve most any problem.
-	To me, however, the language seems to prioritize keeping itself as pure and functional as possible over actual practical utility.
-	For example, I recently needed to keep a running total while operating on numerous documents. What would be a trivial increment of a
-	global variable in any other language requires carrying that parameter through multiple layers of recursion in XSLT. It's ridiculous.
-	Nevertheless, I'll try real hard to overcome my practiced paradigms and learn something new.</p>
+	how far I can take this language. I'm certain I'll need lots of help and will most likely get stumped more often than not.
+	We'll see if I end up breaking out the Python (another language used at work, so it'll still meet my practicing goal).
+	Nevertheless, I'll try real hard to stick with XSLT if I can.</p>
 	<p>Last year I found time to only do one puzzle, spending more time establishing a consistent Python framework than actually
 	solving the Advent puzzles. And then I got busy with work. This year, I already spent over 4 hours doing the same with this
 	DITA/XSLT setup, and here on the 14 December, this weekend free time is already half over, with just as much work to catch
