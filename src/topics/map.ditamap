@@ -3,6 +3,6 @@
   PUBLIC "-//OASIS//DTD DITA Map//EN" "map">
 <map id="days-of-advent">
    <title>Days of Advent</title>
-   <topicref href="/home/jack/Git/AoC-2024/src/topics/day-02.dita"/>
    <topicref href="/home/jack/Git/AoC-2024/src/topics/day-01.dita"/>
+   <topicref href="/home/jack/Git/AoC-2024/src/topics/day-02.dita"/>
 </map>

@@ -20,13 +20,13 @@
             <title>Solution</title>
             <p>See formatted solution code on GitHub:
 		<xref scope="external"
-                     href="https://github.com/arkadianriver/AoC-2024/blob/main/src/xsl/day-02.xsl#L94">solution-p1, line 94</xref>.</p>
+                     href="https://github.com/arkadianriver/AoC-2024/blob/main/src/xsl/day-02.xsl#L98">solution-p1, line 98</xref>.</p>
             <p>See formatted solution code on GitHub:
 		<xref scope="external"
-                     href="https://github.com/arkadianriver/AoC-2024/blob/main/src/xsl/day-02.xsl#L115">check-levels-p1, line 115</xref>.</p>
+                     href="https://github.com/arkadianriver/AoC-2024/blob/main/src/xsl/day-02.xsl#L119">check-levels-p1, line 119</xref>.</p>
             <p>See formatted solution code on GitHub:
 		<xref scope="external"
-                     href="https://github.com/arkadianriver/AoC-2024/blob/main/src/xsl/day-02.xsl#L139">gar:level-increment-p1, line 139</xref>.</p>
+                     href="https://github.com/arkadianriver/AoC-2024/blob/main/src/xsl/day-02.xsl#L143">gar:level-increment-p1, line 143</xref>.</p>
             <p>
                <b>Solution to the test data set</b>
             </p>
@@ -60,7 +60,7 @@
             <title>Solution</title>
             <p>See formatted solution code on GitHub:
 		<xref scope="external"
-                     href="https://github.com/arkadianriver/AoC-2024/blob/main/src/xsl/day-02.xsl#L203">gar:level-increment-p2, line 203</xref>.</p>
+                     href="https://github.com/arkadianriver/AoC-2024/blob/main/src/xsl/day-02.xsl#L207">gar:level-increment-p2, line 207</xref>.</p>
             <p>
                <b>Solution to the test data set</b>
             </p>
