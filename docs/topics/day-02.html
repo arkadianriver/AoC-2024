@@ -1,6 +1,6 @@
 <!DOCTYPE html
   SYSTEM "about:legacy-compat">
-<html lang="en"><head><meta charset="UTF-8"><meta name="copyright" content="(C) Copyright 2026"><meta name="generator" content="DITA-OT"><meta name="description" content="Problem statement on the web."><title>Day 02</title><link rel="stylesheet" type="text/css" href="../commonltr.css"><link rel="stylesheet" type="text/css" href="../aoc.css"></head><body id="aoc-day-02"><nav class="toc" role="navigation"><ul><li><a href="../index.html">Advent of Code 2024</a></li><li><a href="../topics/day-01.html">Day 01</a></li><li class="active"><a href="../topics/day-02.html">Day 02</a></li></ul></nav><main role="main"><article role="article" aria-labelledby="ariaid-title1">
+<html lang="en"><head><meta charset="UTF-8"><meta name="copyright" content="(C) Copyright 2026"><meta name="generator" content="DITA-OT"><meta name="description" content="Problem statement on the web."><title>Day 02</title><link rel="stylesheet" type="text/css" href="../commonltr.css"><link rel="stylesheet" type="text/css" href="../aoc.css"></head><body id="aoc-day-02"><nav class="toc" role="navigation"><ul><li><a href="../index.html">Advent of Code 2024</a></li><li class="active"><a href="../topics/day-02.html">Day 02</a></li><li><a href="../topics/day-01.html">Day 01</a></li></ul></nav><main role="main"><article role="article" aria-labelledby="ariaid-title1">
    <h1 class="title topictitle1" id="ariaid-title1">Day 02</h1>
    
    <div class="body"><p class="shortdesc">
@@ -17,70 +17,12 @@
          </section>
          <section class="section"><h3 class="title sectiontitle">Solution</h3>
             
-            <pre class="pre codeblock example"><code>&lt;xsl:template xmlns:xsl="http://www.w3.org/1999/XSL/Transform" name="solution-p1"&gt;
-                  &lt;xsl:param name="dataset-name" select="'test'"/&gt;
-                  &lt;xsl:variable name="data-doc"
-                                select="unparsed-text('file:///'||$srcdir||'/data/'||$day||'/'||$dataset-name||'.txt')"/&gt;
-                  &lt;xsl:variable name="data"&gt;
-                     &lt;xsl:for-each select="tokenize($data-doc, '\n')"&gt;
-                        &lt;levels&gt;
-                           &lt;xsl:value-of xmlns:xsl="http://www.w3.org/1999/XSL/Transform" select="."/&gt;
-                        &lt;/levels&gt;
-                     &lt;/xsl:for-each&gt;
-                  &lt;/xsl:variable&gt;
-                  &lt;xsl:variable name="answer"&gt;
-                     &lt;xsl:call-template name="check-levels-p1"&gt;
-                        &lt;xsl:with-param name="data" select="$data"/&gt;
-                        &lt;xsl:with-param name="pos" select="1"/&gt;
-                        &lt;xsl:with-param name="safe-levels" select="0"/&gt;
-                     &lt;/xsl:call-template&gt;
-                  &lt;/xsl:variable&gt;
-                  &lt;p&gt;
-                     &lt;b&gt;Solution to the &lt;xsl:value-of xmlns:xsl="http://www.w3.org/1999/XSL/Transform" select="$dataset-name"/&gt; data set&lt;/b&gt;
-                  &lt;/p&gt;
-                  &lt;codeblock&gt;
-                     &lt;xsl:value-of xmlns:xsl="http://www.w3.org/1999/XSL/Transform" select="$answer"/&gt;
-                  &lt;/codeblock&gt;
-               &lt;/xsl:template&gt;</code></pre>
-            <pre class="pre codeblock example"><code>&lt;xsl:template xmlns:xsl="http://www.w3.org/1999/XSL/Transform" name="check-levels-p1"&gt;
-                  &lt;xsl:param name="data"/&gt;
-                  &lt;xsl:param name="pos"/&gt;
-                  &lt;!-- linenum --&gt;
-                  &lt;xsl:param name="safe-levels"/&gt;
-                  &lt;xsl:variable name="report" select="$data/levels[$pos]/text()"/&gt;
-                  &lt;!-- line text --&gt;
-                  &lt;!--
-		&lt;xsl:message&gt;&lt;xsl:value-of select="'safe-levels: '||$safe-levels||'&amp;#x0a;'"/&gt;&lt;/xsl:message&gt;
-		&lt;xsl:message&gt;&lt;xsl:value-of select="'pos: '||$pos||'&amp;#x0a;'"/&gt;&lt;/xsl:message&gt;
-		&lt;xsl:message&gt;&lt;xsl:value-of select="'report: '||$report||'&amp;#x0a;'"/&gt;&lt;/xsl:message&gt;
-		--&gt;
-                  &lt;xsl:choose&gt;
-                     &lt;xsl:when test="$report != ''"&gt;
-                        &lt;xsl:call-template name="check-levels-p1"&gt;
-                           &lt;xsl:with-param name="data" select="$data"/&gt;
-                           &lt;xsl:with-param name="pos" select="$pos + 1"/&gt;
-                           &lt;!-- next linenum --&gt;
-                           &lt;xsl:with-param name="safe-levels"
-                                           select="$safe-levels + gar:level-increment-p1($report)"/&gt;
-                           &lt;!-- test current line and add to previous sum --&gt;
-                        &lt;/xsl:call-template&gt;
-                     &lt;/xsl:when&gt;
-                     &lt;xsl:otherwise&gt;
-                        &lt;xsl:value-of select="$safe-levels"/&gt;
-                     &lt;/xsl:otherwise&gt;
-                  &lt;/xsl:choose&gt;
-               &lt;/xsl:template&gt;</code></pre>
-            <pre class="pre codeblock example"><code>&lt;xsl:function xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-                             name="gar:level-increment-p1"
-                             as="xs:double"&gt;
-                  &lt;xsl:param name="report" as="xs:string"/&gt;
-                  &lt;!-- line of text --&gt;
-                  &lt;xsl:variable name="is-safe" as="xs:boolean"&gt;
-                     &lt;xsl:value-of select="    let $seq := for $num in tokenize($report, ' ') return number($num),     $safe-interval := function ($v as xs:double) as xs:boolean { $v &amp;gt; 0 and $v &amp;lt;= 3 }    return     if ($seq[1] &amp;lt; $seq[2]) then      every $x in (1 to count($seq) - 1) satisfies $safe-interval($seq[$x+1] - $seq[$x])     else      every $x in (1 to count($seq) - 1) satisfies $safe-interval($seq[$x] - $seq[$x+1])    "/&gt;
-                  &lt;/xsl:variable&gt;
-                  &lt;xsl:value-of select="if ($is-safe) then 1 else 0"/&gt;
-                  &lt;!-- line is safe --&gt;
-               &lt;/xsl:function&gt;</code></pre>
+            <p class="p">See formatted solution code on GitHub:
+		<a class="xref" href="https://github.com/arkadianriver/AoC-2024/blob/main/src/xsl/day-02.xsl#L94" target="_blank" rel="external noopener">solution-p1, line 94</a>.</p>
+            <p class="p">See formatted solution code on GitHub:
+		<a class="xref" href="https://github.com/arkadianriver/AoC-2024/blob/main/src/xsl/day-02.xsl#L115" target="_blank" rel="external noopener">check-levels-p1, line 115</a>.</p>
+            <p class="p">See formatted solution code on GitHub:
+		<a class="xref" href="https://github.com/arkadianriver/AoC-2024/blob/main/src/xsl/day-02.xsl#L139" target="_blank" rel="external noopener">gar:level-increment-p1, line 139</a>.</p>
             <p class="p">
                <strong class="ph b">Solution to the test data set</strong>
             </p>
@@ -112,17 +54,8 @@
          </section>
          <section class="section"><h3 class="title sectiontitle">Solution</h3>
             
-            <pre class="pre codeblock example"><code>&lt;xsl:function xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-                             name="gar:level-increment-p2"
-                             as="xs:double"&gt;
-                  &lt;xsl:param name="report" as="xs:string"/&gt;
-                  &lt;!-- line of text --&gt;
-                  &lt;xsl:variable name="is-safe" as="xs:boolean"&gt;
-                     &lt;xsl:value-of select="    let $seq := for $num in tokenize($report, ' ') return number($num),     $safe-interval := function ($v as xs:double) as xs:boolean { $v &amp;gt; 0 and $v &amp;lt;= 3 }    return     some $i in (0 to count($seq)) satisfies      let $sq := remove($seq, $i)      return       if ($sq[1] &amp;lt; $sq[2]) then        every $x in (1 to count($sq) - 1) satisfies $safe-interval($sq[$x+1] - $sq[$x])       else        every $x in (1 to count($sq) - 1) satisfies $safe-interval($sq[$x] - $sq[$x+1])    "/&gt;
-                  &lt;/xsl:variable&gt;
-                  &lt;xsl:value-of select="if ($is-safe) then 1 else 0"/&gt;
-                  &lt;!-- line is safe --&gt;
-               &lt;/xsl:function&gt;</code></pre>
+            <p class="p">See formatted solution code on GitHub:
+		<a class="xref" href="https://github.com/arkadianriver/AoC-2024/blob/main/src/xsl/day-02.xsl#L203" target="_blank" rel="external noopener">gar:level-increment-p2, line 203</a>.</p>
             <p class="p">
                <strong class="ph b">Solution to the test data set</strong>
             </p>

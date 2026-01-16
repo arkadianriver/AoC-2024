@@ -33,20 +33,9 @@
          <section>
             <title>Solution</title>
             <p>Let's see how far I need to deviate from my initial plan to get this thing working.</p>
-            <codeblock outputclass="example"><![CDATA[<xsl:template xmlns:xsl="http://www.w3.org/1999/XSL/Transform" name="solution-part-1">
-                  <xsl:param name="dataset-name" select="'test'"/>
-                  <xsl:variable name="data-doc"
-                                select="unparsed-text('file:///'||$srcdir||'/data/'||$day||'/'||$dataset-name||'.txt')"/>
-                  <xsl:variable name="answer"
-                                select="     let $left-list := sort(for $x in tokenize($data-doc, '\n') return tokenize($x, '   ')[1]),         $right-list := sort(for $x in tokenize($data-doc, '\n') return tokenize($x, '   ')[2])     return         sum(for $pos in 1 to count($left-list) return abs(number($left-list[$pos]) - number($right-list[$pos])))     "/>
-                  <p>
-                     <b>Solution to the <xsl:value-of xmlns:xsl="http://www.w3.org/1999/XSL/Transform" select="$dataset-name"/> data set</b>
-                  </p>
-                  <codeblock>
-                     <xsl:value-of xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-                                   select="format-number($answer, '#')"/>
-                  </codeblock>
-               </xsl:template>]]></codeblock>
+            <p>See formatted solution code on GitHub:
+		<xref scope="external"
+                     href="https://github.com/arkadianriver/AoC-2024/blob/main/src/xsl/day-01.xsl#L93">solution-part-1, line 93</xref>.</p>
             <p>
                <b>Solution to the test data set</b>
             </p>
@@ -75,27 +64,9 @@
          </section>
          <section>
             <title>Solution</title>
-            <codeblock outputclass="example"><![CDATA[<xsl:template xmlns:xsl="http://www.w3.org/1999/XSL/Transform" name="solution-part-2">
-                  <xsl:param name="dataset-name" select="'test'"/>
-                  <xsl:variable name="data-doc"
-                                select="unparsed-text('file:///'||$srcdir||'/data/'||$day||'/'||$dataset-name||'.txt')"/>
-                  <xsl:variable name="right-list">
-                     <xsl:for-each select="tokenize($data-doc, '\n')">
-                        <location>
-                           <xsl:value-of xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-                                         select="tokenize(., '   ')[2]"/>
-                        </location>
-                     </xsl:for-each>
-                  </xsl:variable>
-                  <xsl:variable name="answer"
-                                select="     let $left-list := for $x in tokenize($data-doc, '\n') return tokenize($x, '   ')[1],      $products := sum(for $location in $left-list return number($location) * count($right-list/location[text() = $location]))     return         format-number($products, '#')     "/>
-                  <p>
-                     <b>Solution to the <xsl:value-of xmlns:xsl="http://www.w3.org/1999/XSL/Transform" select="$dataset-name"/> data set</b>
-                  </p>
-                  <codeblock>
-                     <xsl:value-of xmlns:xsl="http://www.w3.org/1999/XSL/Transform" select="$answer"/>
-                  </codeblock>
-               </xsl:template>]]></codeblock>
+            <p>See formatted solution code on GitHub:
+		<xref scope="external"
+                     href="https://github.com/arkadianriver/AoC-2024/blob/main/src/xsl/day-01.xsl#L111">solution-part-2, line 111</xref>.</p>
             <p>
                <b>Solution to the test data set</b>
             </p>

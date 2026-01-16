@@ -46,8 +46,13 @@
 
 	<xsl:template name="print-solution-code">
 		<xsl:param name="solution-name"/>
+		<xsl:param name="linenum"/>
 		<xsl:variable name="xsl-doc" select="doc('file:///'||$srcdir||'/xsl/day-'||$day||'.xsl')"/>
-		<codeblock outputclass="example">
+		<p>See formatted solution code on GitHub:
+		<xref scope="external" href="https://github.com/arkadianriver/AoC-2024/blob/main/src/xsl/day-{$day}.xsl#L{$linenum}">
+			<xsl:value-of select="$solution-name||', line '||$linenum"/>
+		</xref>.</p>
+		<!-- <codeblock outputclass="example">
 		<xsl:text disable-output-escaping="yes">&lt;![CDATA[</xsl:text>
 		<xsl:choose>
 			<xsl:when test="starts-with($solution-name, 'gar:')">
@@ -58,7 +63,7 @@
 			</xsl:otherwise>		
 		</xsl:choose>
 		<xsl:text disable-output-escaping="yes">]]&gt;</xsl:text>
-		</codeblock>
+		</codeblock> -->
 	</xsl:template>
 
 </xsl:stylesheet>

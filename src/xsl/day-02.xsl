@@ -32,12 +32,15 @@
 							<title>Solution</title>
 							<xsl:call-template name="print-solution-code">
 								<xsl:with-param name="solution-name" select="'solution-p1'"/>
+								<xsl:with-param name="linenum" select="'94'"/>
 							</xsl:call-template>
 							<xsl:call-template name="print-solution-code">
 								<xsl:with-param name="solution-name" select="'check-levels-p1'"/>
+								<xsl:with-param name="linenum" select="'115'"/>
 							</xsl:call-template>
 							<xsl:call-template name="print-solution-code">
 								<xsl:with-param name="solution-name" select="'gar:level-increment-p1'"/>
+								<xsl:with-param name="linenum" select="'139'"/>
 							</xsl:call-template>
 							<xsl:message>START Part 1 test: <xsl:value-of select="gar:tstamp()"/></xsl:message>
 							<xsl:call-template name="solution-p1"/>
@@ -72,6 +75,7 @@
 							<title>Solution</title>
 							<xsl:call-template name="print-solution-code">
 								<xsl:with-param name="solution-name" select="'gar:level-increment-p2'"/>
+								<xsl:with-param name="linenum" select="'203'"/>
 							</xsl:call-template>
 							<xsl:message>START Part 2 test: <xsl:value-of select="gar:tstamp()"/></xsl:message>
 							<xsl:call-template name="solution-p2"/>

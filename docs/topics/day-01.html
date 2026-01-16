@@ -1,6 +1,6 @@
 <!DOCTYPE html
   SYSTEM "about:legacy-compat">
-<html lang="en"><head><meta charset="UTF-8"><meta name="copyright" content="(C) Copyright 2026"><meta name="generator" content="DITA-OT"><meta name="description" content="Problem statement on the web."><title>Day 01</title><link rel="stylesheet" type="text/css" href="../commonltr.css"><link rel="stylesheet" type="text/css" href="../aoc.css"></head><body id="aoc-day-01"><nav class="toc" role="navigation"><ul><li><a href="../index.html">Advent of Code 2024</a></li><li class="active"><a href="../topics/day-01.html">Day 01</a></li><li><a href="../topics/day-02.html">Day 02</a></li></ul></nav><main role="main"><article role="article" aria-labelledby="ariaid-title1">
+<html lang="en"><head><meta charset="UTF-8"><meta name="copyright" content="(C) Copyright 2026"><meta name="generator" content="DITA-OT"><meta name="description" content="Problem statement on the web."><title>Day 01</title><link rel="stylesheet" type="text/css" href="../commonltr.css"><link rel="stylesheet" type="text/css" href="../aoc.css"></head><body id="aoc-day-01"><nav class="toc" role="navigation"><ul><li><a href="../index.html">Advent of Code 2024</a></li><li><a href="../topics/day-02.html">Day 02</a></li><li class="active"><a href="../topics/day-01.html">Day 01</a></li></ul></nav><main role="main"><article role="article" aria-labelledby="ariaid-title1">
    <h1 class="title topictitle1" id="ariaid-title1">Day 01</h1>
    
    <div class="body"><p class="shortdesc">
@@ -32,20 +32,8 @@
          <section class="section"><h3 class="title sectiontitle">Solution</h3>
             
             <p class="p">Let's see how far I need to deviate from my initial plan to get this thing working.</p>
-            <pre class="pre codeblock example"><code>&lt;xsl:template xmlns:xsl="http://www.w3.org/1999/XSL/Transform" name="solution-part-1"&gt;
-                  &lt;xsl:param name="dataset-name" select="'test'"/&gt;
-                  &lt;xsl:variable name="data-doc"
-                                select="unparsed-text('file:///'||$srcdir||'/data/'||$day||'/'||$dataset-name||'.txt')"/&gt;
-                  &lt;xsl:variable name="answer"
-                                select="     let $left-list := sort(for $x in tokenize($data-doc, '\n') return tokenize($x, '   ')[1]),         $right-list := sort(for $x in tokenize($data-doc, '\n') return tokenize($x, '   ')[2])     return         sum(for $pos in 1 to count($left-list) return abs(number($left-list[$pos]) - number($right-list[$pos])))     "/&gt;
-                  &lt;p&gt;
-                     &lt;b&gt;Solution to the &lt;xsl:value-of xmlns:xsl="http://www.w3.org/1999/XSL/Transform" select="$dataset-name"/&gt; data set&lt;/b&gt;
-                  &lt;/p&gt;
-                  &lt;codeblock&gt;
-                     &lt;xsl:value-of xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-                                   select="format-number($answer, '#')"/&gt;
-                  &lt;/codeblock&gt;
-               &lt;/xsl:template&gt;</code></pre>
+            <p class="p">See formatted solution code on GitHub:
+		<a class="xref" href="https://github.com/arkadianriver/AoC-2024/blob/main/src/xsl/day-01.xsl#L93" target="_blank" rel="external noopener">solution-part-1, line 93</a>.</p>
             <p class="p">
                <strong class="ph b">Solution to the test data set</strong>
             </p>
@@ -74,27 +62,8 @@
          </section>
          <section class="section"><h3 class="title sectiontitle">Solution</h3>
             
-            <pre class="pre codeblock example"><code>&lt;xsl:template xmlns:xsl="http://www.w3.org/1999/XSL/Transform" name="solution-part-2"&gt;
-                  &lt;xsl:param name="dataset-name" select="'test'"/&gt;
-                  &lt;xsl:variable name="data-doc"
-                                select="unparsed-text('file:///'||$srcdir||'/data/'||$day||'/'||$dataset-name||'.txt')"/&gt;
-                  &lt;xsl:variable name="right-list"&gt;
-                     &lt;xsl:for-each select="tokenize($data-doc, '\n')"&gt;
-                        &lt;location&gt;
-                           &lt;xsl:value-of xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-                                         select="tokenize(., '   ')[2]"/&gt;
-                        &lt;/location&gt;
-                     &lt;/xsl:for-each&gt;
-                  &lt;/xsl:variable&gt;
-                  &lt;xsl:variable name="answer"
-                                select="     let $left-list := for $x in tokenize($data-doc, '\n') return tokenize($x, '   ')[1],      $products := sum(for $location in $left-list return number($location) * count($right-list/location[text() = $location]))     return         format-number($products, '#')     "/&gt;
-                  &lt;p&gt;
-                     &lt;b&gt;Solution to the &lt;xsl:value-of xmlns:xsl="http://www.w3.org/1999/XSL/Transform" select="$dataset-name"/&gt; data set&lt;/b&gt;
-                  &lt;/p&gt;
-                  &lt;codeblock&gt;
-                     &lt;xsl:value-of xmlns:xsl="http://www.w3.org/1999/XSL/Transform" select="$answer"/&gt;
-                  &lt;/codeblock&gt;
-               &lt;/xsl:template&gt;</code></pre>
+            <p class="p">See formatted solution code on GitHub:
+		<a class="xref" href="https://github.com/arkadianriver/AoC-2024/blob/main/src/xsl/day-01.xsl#L111" target="_blank" rel="external noopener">solution-part-2, line 111</a>.</p>
             <p class="p">
                <strong class="ph b">Solution to the test data set</strong>
             </p>
