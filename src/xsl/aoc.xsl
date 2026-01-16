@@ -33,17 +33,30 @@
 
 	<!-- Utilities -->
 
+	<xsl:function name="gar:tstamp">
+		<!-- <xsl:param name="now"/>
+		<xsl:value-of select="format-dateTime($now, '[Y0001]-[M01]-[D01] [h01]:[m01]:[s01].[f001]')"/> -->
+		<xsl:value-of select="seconds-from-dateTime(current-dateTime())"/>
+	</xsl:function>
+
 	<xsl:function name="gar:init-caps" as="xs:string">
 		<xsl:param name="s"/>
 		<xsl:value-of select="upper-case(substring($s,1,1))||substring($s,2,string-length($s))"/>
 	</xsl:function>
 
 	<xsl:template name="print-solution-code">
-		<xsl:param name="part"/>
+		<xsl:param name="solution-name"/>
 		<xsl:variable name="xsl-doc" select="doc('file:///'||$srcdir||'/xsl/day-'||$day||'.xsl')"/>
 		<codeblock outputclass="example">
 		<xsl:text disable-output-escaping="yes">&lt;![CDATA[</xsl:text>
-		<xsl:copy-of select="$xsl-doc/xsl:stylesheet/xsl:template[@name='solution-part-'||$part]" copy-namespaces="no"/>
+		<xsl:choose>
+			<xsl:when test="starts-with($solution-name, 'gar:')">
+				<xsl:copy-of select="$xsl-doc/xsl:stylesheet/xsl:function[@name=$solution-name]" copy-namespaces="no"/>	
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:copy-of select="$xsl-doc/xsl:stylesheet/xsl:template[@name=$solution-name]" copy-namespaces="no"/>
+			</xsl:otherwise>		
+		</xsl:choose>
 		<xsl:text disable-output-escaping="yes">]]&gt;</xsl:text>
 		</codeblock>
 	</xsl:template>

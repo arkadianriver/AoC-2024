@@ -1,4 +1,14 @@
 #!/usr/bin/bash
+#
+# Build with ...
+# 
+#     build -d NN
+#
+# ... where NN is the day, such as 02 for day 2
+#
+# Tested with DITA-OT 4.2.3, with the com.arkadianriver.aoc plugin installed
+# for the XSL preprocessing, of course.
+#
 
 thisdir=`pwd`
 

@@ -1,0 +1,137 @@
+<!DOCTYPE html
+  SYSTEM "about:legacy-compat">
+<html lang="en"><head><meta charset="UTF-8"><meta name="copyright" content="(C) Copyright 2026"><meta name="generator" content="DITA-OT"><meta name="description" content="Problem statement on the web."><title>Day 02</title><link rel="stylesheet" type="text/css" href="../commonltr.css"><link rel="stylesheet" type="text/css" href="../aoc.css"></head><body id="aoc-day-02"><nav class="toc" role="navigation"><ul><li><a href="../index.html">Advent of Code 2024</a></li><li><a href="../topics/day-01.html">Day 01</a></li><li class="active"><a href="../topics/day-02.html">Day 02</a></li></ul></nav><main role="main"><article role="article" aria-labelledby="ariaid-title1">
+   <h1 class="title topictitle1" id="ariaid-title1">Day 02</h1>
+   
+   <div class="body"><p class="shortdesc">
+      <a class="xref" href="https://adventofcode.com/2024/day/2" target="_blank" rel="external noopener">Problem statement on the web</a>.</p></div>
+   <article class="topic nested1" aria-labelledby="ariaid-title2" id="aoc-day-02-1">
+      <h2 class="title topictitle2" id="ariaid-title2">Day 02, part 1</h2>
+      <div class="body">
+         <section class="section"><h3 class="title sectiontitle">Discussion</h3>
+            
+            <p class="p">Another line-by-line set of data. I think this time I'll try recursion.
+							I'll call a template on a line, call an isSafe function on that line's sequence, adding 1 or not to the safe-levels
+							variable, which I'll carry as a parameter to the recursive iteration on line+next until there's no +next values left.
+							The isSafe function checks first if starts off ascending or descending then evaluates that each subsequent interval meets the criteria.</p>
+         </section>
+         <section class="section"><h3 class="title sectiontitle">Solution</h3>
+            
+            <pre class="pre codeblock example"><code>&lt;xsl:template xmlns:xsl="http://www.w3.org/1999/XSL/Transform" name="solution-p1"&gt;
+                  &lt;xsl:param name="dataset-name" select="'test'"/&gt;
+                  &lt;xsl:variable name="data-doc"
+                                select="unparsed-text('file:///'||$srcdir||'/data/'||$day||'/'||$dataset-name||'.txt')"/&gt;
+                  &lt;xsl:variable name="data"&gt;
+                     &lt;xsl:for-each select="tokenize($data-doc, '\n')"&gt;
+                        &lt;levels&gt;
+                           &lt;xsl:value-of xmlns:xsl="http://www.w3.org/1999/XSL/Transform" select="."/&gt;
+                        &lt;/levels&gt;
+                     &lt;/xsl:for-each&gt;
+                  &lt;/xsl:variable&gt;
+                  &lt;xsl:variable name="answer"&gt;
+                     &lt;xsl:call-template name="check-levels-p1"&gt;
+                        &lt;xsl:with-param name="data" select="$data"/&gt;
+                        &lt;xsl:with-param name="pos" select="1"/&gt;
+                        &lt;xsl:with-param name="safe-levels" select="0"/&gt;
+                     &lt;/xsl:call-template&gt;
+                  &lt;/xsl:variable&gt;
+                  &lt;p&gt;
+                     &lt;b&gt;Solution to the &lt;xsl:value-of xmlns:xsl="http://www.w3.org/1999/XSL/Transform" select="$dataset-name"/&gt; data set&lt;/b&gt;
+                  &lt;/p&gt;
+                  &lt;codeblock&gt;
+                     &lt;xsl:value-of xmlns:xsl="http://www.w3.org/1999/XSL/Transform" select="$answer"/&gt;
+                  &lt;/codeblock&gt;
+               &lt;/xsl:template&gt;</code></pre>
+            <pre class="pre codeblock example"><code>&lt;xsl:template xmlns:xsl="http://www.w3.org/1999/XSL/Transform" name="check-levels-p1"&gt;
+                  &lt;xsl:param name="data"/&gt;
+                  &lt;xsl:param name="pos"/&gt;
+                  &lt;!-- linenum --&gt;
+                  &lt;xsl:param name="safe-levels"/&gt;
+                  &lt;xsl:variable name="report" select="$data/levels[$pos]/text()"/&gt;
+                  &lt;!-- line text --&gt;
+                  &lt;!--
+		&lt;xsl:message&gt;&lt;xsl:value-of select="'safe-levels: '||$safe-levels||'&amp;#x0a;'"/&gt;&lt;/xsl:message&gt;
+		&lt;xsl:message&gt;&lt;xsl:value-of select="'pos: '||$pos||'&amp;#x0a;'"/&gt;&lt;/xsl:message&gt;
+		&lt;xsl:message&gt;&lt;xsl:value-of select="'report: '||$report||'&amp;#x0a;'"/&gt;&lt;/xsl:message&gt;
+		--&gt;
+                  &lt;xsl:choose&gt;
+                     &lt;xsl:when test="$report != ''"&gt;
+                        &lt;xsl:call-template name="check-levels-p1"&gt;
+                           &lt;xsl:with-param name="data" select="$data"/&gt;
+                           &lt;xsl:with-param name="pos" select="$pos + 1"/&gt;
+                           &lt;!-- next linenum --&gt;
+                           &lt;xsl:with-param name="safe-levels"
+                                           select="$safe-levels + gar:level-increment-p1($report)"/&gt;
+                           &lt;!-- test current line and add to previous sum --&gt;
+                        &lt;/xsl:call-template&gt;
+                     &lt;/xsl:when&gt;
+                     &lt;xsl:otherwise&gt;
+                        &lt;xsl:value-of select="$safe-levels"/&gt;
+                     &lt;/xsl:otherwise&gt;
+                  &lt;/xsl:choose&gt;
+               &lt;/xsl:template&gt;</code></pre>
+            <pre class="pre codeblock example"><code>&lt;xsl:function xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+                             name="gar:level-increment-p1"
+                             as="xs:double"&gt;
+                  &lt;xsl:param name="report" as="xs:string"/&gt;
+                  &lt;!-- line of text --&gt;
+                  &lt;xsl:variable name="is-safe" as="xs:boolean"&gt;
+                     &lt;xsl:value-of select="    let $seq := for $num in tokenize($report, ' ') return number($num),     $safe-interval := function ($v as xs:double) as xs:boolean { $v &amp;gt; 0 and $v &amp;lt;= 3 }    return     if ($seq[1] &amp;lt; $seq[2]) then      every $x in (1 to count($seq) - 1) satisfies $safe-interval($seq[$x+1] - $seq[$x])     else      every $x in (1 to count($seq) - 1) satisfies $safe-interval($seq[$x] - $seq[$x+1])    "/&gt;
+                  &lt;/xsl:variable&gt;
+                  &lt;xsl:value-of select="if ($is-safe) then 1 else 0"/&gt;
+                  &lt;!-- line is safe --&gt;
+               &lt;/xsl:function&gt;</code></pre>
+            <p class="p">
+               <strong class="ph b">Solution to the test data set</strong>
+            </p>
+            <pre class="pre codeblock"><code>2</code></pre>
+            <p class="p">
+               <strong class="ph b">Solution to the actual data set</strong>
+            </p>
+            <pre class="pre codeblock"><code>472</code></pre>
+         </section>
+      </div>
+   </article>
+   <article class="topic nested1" aria-labelledby="ariaid-title3" id="aoc-day-02-2">
+      <h2 class="title topictitle2" id="ariaid-title3">Day 02, part 2</h2>
+      <div class="body">
+         <section class="section"><h3 class="title sectiontitle">Discussion</h3>
+            
+            <p class="p">Looks like I just need to copy the <code class="ph codeph">solution</code> template, the recursive <code class="ph codeph">check-levels</code>
+							template, and change the <code class="ph codeph">gar:safe-increment()</code> function. I'm thinking I could
+							save the previous index as I progress down the sequence, and when a condition against the next index fails, try again
+							using the previous index, and if that succeeds, drop the _current_ index and move on. But if it fails,
+							drop the _next_ index to see if it succeeds. If it does, move on, or else fail altogether.
+							one fails. I think.
+							Let's have at it.</p>
+            <p class="p">Well, after struggling through it, I ended up checking how Daniel Persson solved it and it looks like he had
+							a time with it, too. Like he did, I decided to remove each index in sequence and test the sub-sequence (after making
+							sure the full sequence didn't already work by indexing at 0), using the <code class="ph codeph">some in .. satisfies</code> to
+							exit upon success.
+							</p>
+         </section>
+         <section class="section"><h3 class="title sectiontitle">Solution</h3>
+            
+            <pre class="pre codeblock example"><code>&lt;xsl:function xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+                             name="gar:level-increment-p2"
+                             as="xs:double"&gt;
+                  &lt;xsl:param name="report" as="xs:string"/&gt;
+                  &lt;!-- line of text --&gt;
+                  &lt;xsl:variable name="is-safe" as="xs:boolean"&gt;
+                     &lt;xsl:value-of select="    let $seq := for $num in tokenize($report, ' ') return number($num),     $safe-interval := function ($v as xs:double) as xs:boolean { $v &amp;gt; 0 and $v &amp;lt;= 3 }    return     some $i in (0 to count($seq)) satisfies      let $sq := remove($seq, $i)      return       if ($sq[1] &amp;lt; $sq[2]) then        every $x in (1 to count($sq) - 1) satisfies $safe-interval($sq[$x+1] - $sq[$x])       else        every $x in (1 to count($sq) - 1) satisfies $safe-interval($sq[$x] - $sq[$x+1])    "/&gt;
+                  &lt;/xsl:variable&gt;
+                  &lt;xsl:value-of select="if ($is-safe) then 1 else 0"/&gt;
+                  &lt;!-- line is safe --&gt;
+               &lt;/xsl:function&gt;</code></pre>
+            <p class="p">
+               <strong class="ph b">Solution to the test data set</strong>
+            </p>
+            <pre class="pre codeblock"><code>4</code></pre>
+            <p class="p">
+               <strong class="ph b">Solution to the actual data set</strong>
+            </p>
+            <pre class="pre codeblock"><code>520</code></pre>
+         </section>
+      </div>
+   </article>
+</article></main></body></html>
