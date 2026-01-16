@@ -46,7 +46,7 @@
 							<title>Solution</title>
 							<p>Let's see how far I need to deviate from my initial plan to get this thing working.</p>
 							<xsl:call-template name="print-solution-code">
-								<xsl:with-param name="part" select="'1'"/>
+								<xsl:with-param name="solution-name" select="'solution-part-1'"/>
 							</xsl:call-template>
 							<xsl:call-template name="solution-part-1"/>
 							<xsl:call-template name="solution-part-1">
@@ -73,7 +73,7 @@
 						<section>
 							<title>Solution</title>
 							<xsl:call-template name="print-solution-code">
-								<xsl:with-param name="part" select="'2'"/>
+								<xsl:with-param name="solution-name" select="'solution-part-2'"/>
 							</xsl:call-template>
 							<xsl:call-template name="solution-part-2"/>
 							<xsl:call-template name="solution-part-2">

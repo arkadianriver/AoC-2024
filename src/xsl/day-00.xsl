@@ -29,11 +29,17 @@
 						</section>
 						<section>
 							<title>Solution</title>
-							<codeblock></codeblock>
+							<xsl:call-template name="print-solution-code">
+								<xsl:with-param name="part" select="'1'"/>
+							</xsl:call-template>
+							<xsl:call-template name="solution-part-1"/>
+							<xsl:call-template name="solution-part-1">
+								<xsl:with-param name="dataset-name" select="'actual'"/>
+							</xsl:call-template>
 						</section>
 					</body>
 				</topic>
-				<topic id="aoc-day-{$day}-2">
+				<!-- <topic id="aoc-day-{$day}-2">
 					<title>Day <xsl:value-of select="$day"/>, part 2</title>
 					<body>
 						<section>
@@ -42,12 +48,43 @@
 						</section>
 						<section>
 							<title>Solution</title>
-							<codeblock></codeblock>
+							<xsl:call-template name="print-solution-code">
+								<xsl:with-param name="part" select="'1'"/>
+							</xsl:call-template>
+							<xsl:call-template name="solution-part-1"/>
+							<xsl:call-template name="solution-part-1">
+								<xsl:with-param name="dataset-name" select="'actual'"/>
+							</xsl:call-template>
 						</section>
 					</body>
 				</topic>
-			</topic>
+			</topic> -->
 		</xsl:result-document>
 	</xsl:template>
+
+	<!-- PART 1 -->
+
+	<xsl:template name="solution-part-1">
+		<xsl:param name="dataset-name" select="'test'"/>
+		<xsl:variable name="data-doc" select="unparsed-text('file:///'||$srcdir||'/data/'||$day||'/'||$dataset-name||'.txt')"/>
+		<xsl:variable name="answer" select=""/>
+		<p><b>Solution to the <xsl:value-of select="$dataset-name"/> data set</b></p>
+		<codeblock>
+			<xsl:value-of select="$answer"/>
+		</codeblock>
+	</xsl:template>
+
+
+	<!-- PART 2 -->
+
+	<!-- <xsl:template name="solution-part-2">
+		<xsl:param name="dataset-name" select="'test'"/>
+		<xsl:variable name="data-doc" select="unparsed-text('file:///'||$srcdir||'/data/'||$day||'/'||$dataset-name||'.txt')"/>
+		<xsl:variable name="answer" select=""/>
+		<p><b>Solution to the <xsl:value-of select="$dataset-name"/> data set</b></p>
+		<codeblock>
+	    	<xsl:value-of select="$answer"/>
+		</codeblock>
+	</xsl:template> -->
 
 </xsl:stylesheet>
