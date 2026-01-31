@@ -15,7 +15,24 @@
             <codeblock>perl -0ne '$ttl = 0; while (/mul\((\d{1,3}),(\d{1,3})\)/g) { $ttl += $1 * $2 }; print qq(Total: $ttl\n);' src/data/03/actual.txt
 Total: 178538786
 							</codeblock>
-            <p>I know xslt and xpath have great support for regular expressions, so lemme quickly look up the syntax for this.</p>
+            <p>I know xslt and xpath have great support for regular expressions, so I looked up the syntax and had at it.
+							I ended up using <codeph>analyze-string()</codeph>, which, when used with groups, produces
+							matching and unmatching strings, listed in order of occurence. Here's the result when matching that regular expression
+							against the test data:</p>
+            <codeblock>
+&lt;analyze-string-result xmlns="http://www.w3.org/2005/xpath-functions"&gt;
+   &lt;non-match&gt;x&lt;/non-match&gt;
+   &lt;match&gt;mul(&lt;group nr="1"&gt;2&lt;/group&gt;,&lt;group nr="2"&gt;4&lt;/group&gt;)&lt;/match&gt;
+   &lt;non-match&gt;%&amp;mul[3,7]!@^do()_&lt;/non-match&gt;
+   &lt;match&gt;mul(&lt;group nr="1"&gt;5&lt;/group&gt;,&lt;group nr="2"&gt;5&lt;/group&gt;)&lt;/match&gt;
+   &lt;non-match&gt;+mul(32,64]thdon't()en(&lt;/non-match&gt;
+   &lt;match&gt;mul(&lt;group nr="1"&gt;11&lt;/group&gt;,&lt;group nr="2"&gt;8&lt;/group&gt;)&lt;/match&gt;
+   &lt;match&gt;mul(&lt;group nr="1"&gt;8&lt;/group&gt;,&lt;group nr="2"&gt;5&lt;/group&gt;)&lt;/match&gt;
+   &lt;non-match&gt;)wmxo_do()__&lt;/non-match&gt;
+   &lt;match&gt;mul(&lt;group nr="1"&gt;10&lt;/group&gt;,&lt;group nr="2"&gt;2&lt;/group&gt;)&lt;/match&gt;
+   &lt;non-match&gt;sxcer)&lt;/non-match&gt;
+&lt;/analyze-string-result&gt;
+							</codeblock>
          </section>
          <section>
             <title>Solution</title>
@@ -24,11 +41,11 @@ Total: 178538786
 							</p>
             <p>See formatted solution code on GitHub:
 		<xref scope="external"
-                     href="https://github.com/arkadianriver/AoC-2024/blob/main/src/xsl/day-03.xsl#L91">gar:accum-matches, line 91</xref>.</p>
+                     href="https://github.com/arkadianriver/AoC-2024/blob/main/src/xsl/day-03.xsl#L109">gar:accum-matches, line 109</xref>.</p>
             <p>And here's the calling template:</p>
             <p>See formatted solution code on GitHub:
 		<xref scope="external"
-                     href="https://github.com/arkadianriver/AoC-2024/blob/main/src/xsl/day-03.xsl#L106">solution-part-1, line 106</xref>.</p>
+                     href="https://github.com/arkadianriver/AoC-2024/blob/main/src/xsl/day-03.xsl#L125">solution-part-1, line 125</xref>.</p>
             <p>I added a bit more to the test data, particularly to test part 2.</p>
             <p>
                <b>Solution to the test data set</b>
@@ -54,14 +71,15 @@ Total: 178538786
             <p>For each <codeph>do()</codeph> line, it uses the same match function as part 1.</p>
             <p>See formatted solution code on GitHub:
 		<xref scope="external"
-                     href="https://github.com/arkadianriver/AoC-2024/blob/main/src/xsl/day-03.xsl#L91">gar:accum-matches, line 91</xref>.</p>
+                     href="https://github.com/arkadianriver/AoC-2024/blob/main/src/xsl/day-03.xsl#L109">gar:accum-matches, line 109</xref>.</p>
             <p>The solution first tests if there's a line before a <codeph>do</codeph>
-								or <codeph>don't</codeph> function, then runs the <codeph>gar:accum-matches</codeph>
+								or <codeph>don't</codeph> function since that defaults to a <codeph>do</codeph> line,
+								then it runs the <codeph>gar:accum-matches()</codeph>
 								function on each non-matching line whose preceding match is <codeph>do()</codeph>,
 								summing it all up in the end.</p>
             <p>See formatted solution code on GitHub:
 		<xref scope="external"
-                     href="https://github.com/arkadianriver/AoC-2024/blob/main/src/xsl/day-03.xsl#L119">solution-part-2, line 119</xref>.</p>
+                     href="https://github.com/arkadianriver/AoC-2024/blob/main/src/xsl/day-03.xsl#L138">solution-part-2, line 138</xref>.</p>
             <p>
                <b>Solution to the test data set</b>
             </p>

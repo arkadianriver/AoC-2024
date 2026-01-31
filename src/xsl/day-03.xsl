@@ -28,7 +28,24 @@
 							<codeblock>perl -0ne '$ttl = 0; while (/mul\((\d{1,3}),(\d{1,3})\)/g) { $ttl += $1 * $2 }; print qq(Total: $ttl\n);' src/data/03/actual.txt
 Total: 178538786
 							</codeblock>
-							<p>I know xslt and xpath have great support for regular expressions, so lemme quickly look up the syntax for this.</p>
+							<p>I know xslt and xpath have great support for regular expressions, so I looked up the syntax and had at it.
+							I ended up using <codeph>analyze-string()</codeph>, which, when used with groups, produces
+							matching and unmatching strings, listed in order of occurence. Here's the result when matching that regular expression
+							against the test data:</p>
+							<codeblock>
+&lt;analyze-string-result xmlns="http://www.w3.org/2005/xpath-functions">
+   &lt;non-match>x&lt;/non-match>
+   &lt;match>mul(&lt;group nr="1">2&lt;/group>,&lt;group nr="2">4&lt;/group>)&lt;/match>
+   &lt;non-match>%&amp;mul[3,7]!@^do()_&lt;/non-match>
+   &lt;match>mul(&lt;group nr="1">5&lt;/group>,&lt;group nr="2">5&lt;/group>)&lt;/match>
+   &lt;non-match>+mul(32,64]thdon't()en(&lt;/non-match>
+   &lt;match>mul(&lt;group nr="1">11&lt;/group>,&lt;group nr="2">8&lt;/group>)&lt;/match>
+   &lt;match>mul(&lt;group nr="1">8&lt;/group>,&lt;group nr="2">5&lt;/group>)&lt;/match>
+   &lt;non-match>)wmxo_do()__&lt;/non-match>
+   &lt;match>mul(&lt;group nr="1">10&lt;/group>,&lt;group nr="2">2&lt;/group>)&lt;/match>
+   &lt;non-match>sxcer)&lt;/non-match>
+&lt;/analyze-string-result>
+							</codeblock>
 						</section>
 						<section>
 							<title>Solution</title>
@@ -37,12 +54,12 @@ Total: 178538786
 							</p>
 							<xsl:call-template name="print-solution-code">
 								<xsl:with-param name="solution-name" select="'gar:accum-matches'"/>
-								<xsl:with-param name="linenum" select="'91'"/>
+								<xsl:with-param name="linenum" select="'109'"/>
 							</xsl:call-template>
 							<p>And here's the calling template:</p>
 							<xsl:call-template name="print-solution-code">
 								<xsl:with-param name="solution-name" select="'solution-part-1'"/>
-								<xsl:with-param name="linenum" select="'106'"/>
+								<xsl:with-param name="linenum" select="'125'"/>
 							</xsl:call-template>
 							<p>I added a bit more to the test data, particularly to test part 2.</p>
 							<xsl:call-template name="solution-part-1"/>
@@ -65,15 +82,16 @@ Total: 178538786
 							<p>For each <codeph>do()</codeph> line, it uses the same match function as part 1.</p>
 							<xsl:call-template name="print-solution-code">
 								<xsl:with-param name="solution-name" select="'gar:accum-matches'"/>
-								<xsl:with-param name="linenum" select="'91'"/>
+								<xsl:with-param name="linenum" select="'109'"/>
 							</xsl:call-template>
 							<p>The solution first tests if there's a line before a <codeph>do</codeph>
-								or <codeph>don't</codeph> function, then runs the <codeph>gar:accum-matches</codeph>
+								or <codeph>don't</codeph> function since that defaults to a <codeph>do</codeph> line,
+								then it runs the <codeph>gar:accum-matches()</codeph>
 								function on each non-matching line whose preceding match is <codeph>do()</codeph>,
 								summing it all up in the end.</p>
 							<xsl:call-template name="print-solution-code">
 								<xsl:with-param name="solution-name" select="'solution-part-2'"/>
-								<xsl:with-param name="linenum" select="'119'"/>
+								<xsl:with-param name="linenum" select="'138'"/>
 							</xsl:call-template>
 							<xsl:call-template name="solution-part-2"/>
 							<xsl:call-template name="solution-part-2">
@@ -91,6 +109,7 @@ Total: 178538786
 	<xsl:function name="gar:accum-matches" as="xs:double">
 		<xsl:param name="the-string"/>
 		<xsl:variable name="matches" select="analyze-string($the-string, 'mul\((\d{1,3}),(\d{1,3})\)', 's')"/>
+		<xsl:message><xsl:copy-of select="$matches"/></xsl:message>
 		<xsl:value-of select="
 			sum(
 				for-each-pair(

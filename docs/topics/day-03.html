@@ -14,7 +14,24 @@
             <pre class="pre codeblock"><code>perl -0ne '$ttl = 0; while (/mul\((\d{1,3}),(\d{1,3})\)/g) { $ttl += $1 * $2 }; print qq(Total: $ttl\n);' src/data/03/actual.txt
 Total: 178538786
 							</code></pre>
-            <p class="p">I know xslt and xpath have great support for regular expressions, so lemme quickly look up the syntax for this.</p>
+            <p class="p">I know xslt and xpath have great support for regular expressions, so I looked up the syntax and had at it.
+							I ended up using <code class="ph codeph">analyze-string()</code>, which, when used with groups, produces
+							matching and unmatching strings, listed in order of occurence. Here's the result when matching that regular expression
+							against the test data:</p>
+            <pre class="pre codeblock"><code>
+&lt;analyze-string-result xmlns="http://www.w3.org/2005/xpath-functions"&gt;
+   &lt;non-match&gt;x&lt;/non-match&gt;
+   &lt;match&gt;mul(&lt;group nr="1"&gt;2&lt;/group&gt;,&lt;group nr="2"&gt;4&lt;/group&gt;)&lt;/match&gt;
+   &lt;non-match&gt;%&amp;mul[3,7]!@^do()_&lt;/non-match&gt;
+   &lt;match&gt;mul(&lt;group nr="1"&gt;5&lt;/group&gt;,&lt;group nr="2"&gt;5&lt;/group&gt;)&lt;/match&gt;
+   &lt;non-match&gt;+mul(32,64]thdon't()en(&lt;/non-match&gt;
+   &lt;match&gt;mul(&lt;group nr="1"&gt;11&lt;/group&gt;,&lt;group nr="2"&gt;8&lt;/group&gt;)&lt;/match&gt;
+   &lt;match&gt;mul(&lt;group nr="1"&gt;8&lt;/group&gt;,&lt;group nr="2"&gt;5&lt;/group&gt;)&lt;/match&gt;
+   &lt;non-match&gt;)wmxo_do()__&lt;/non-match&gt;
+   &lt;match&gt;mul(&lt;group nr="1"&gt;10&lt;/group&gt;,&lt;group nr="2"&gt;2&lt;/group&gt;)&lt;/match&gt;
+   &lt;non-match&gt;sxcer)&lt;/non-match&gt;
+&lt;/analyze-string-result&gt;
+							</code></pre>
          </section>
          <section class="section"><h3 class="title sectiontitle">Solution</h3>
             
@@ -22,10 +39,10 @@ Total: 178538786
 								for part 2. Here's the guts of the match function:
 							</p>
             <p class="p">See formatted solution code on GitHub:
-		<a class="xref" href="https://github.com/arkadianriver/AoC-2024/blob/main/src/xsl/day-03.xsl#L91" target="_blank" rel="external noopener">gar:accum-matches, line 91</a>.</p>
+		<a class="xref" href="https://github.com/arkadianriver/AoC-2024/blob/main/src/xsl/day-03.xsl#L109" target="_blank" rel="external noopener">gar:accum-matches, line 109</a>.</p>
             <p class="p">And here's the calling template:</p>
             <p class="p">See formatted solution code on GitHub:
-		<a class="xref" href="https://github.com/arkadianriver/AoC-2024/blob/main/src/xsl/day-03.xsl#L106" target="_blank" rel="external noopener">solution-part-1, line 106</a>.</p>
+		<a class="xref" href="https://github.com/arkadianriver/AoC-2024/blob/main/src/xsl/day-03.xsl#L125" target="_blank" rel="external noopener">solution-part-1, line 125</a>.</p>
             <p class="p">I added a bit more to the test data, particularly to test part 2.</p>
             <p class="p">
                <strong class="ph b">Solution to the test data set</strong>
@@ -50,13 +67,14 @@ Total: 178538786
             
             <p class="p">For each <code class="ph codeph">do()</code> line, it uses the same match function as part 1.</p>
             <p class="p">See formatted solution code on GitHub:
-		<a class="xref" href="https://github.com/arkadianriver/AoC-2024/blob/main/src/xsl/day-03.xsl#L91" target="_blank" rel="external noopener">gar:accum-matches, line 91</a>.</p>
+		<a class="xref" href="https://github.com/arkadianriver/AoC-2024/blob/main/src/xsl/day-03.xsl#L109" target="_blank" rel="external noopener">gar:accum-matches, line 109</a>.</p>
             <p class="p">The solution first tests if there's a line before a <code class="ph codeph">do</code>
-								or <code class="ph codeph">don't</code> function, then runs the <code class="ph codeph">gar:accum-matches</code>
+								or <code class="ph codeph">don't</code> function since that defaults to a <code class="ph codeph">do</code> line,
+								then it runs the <code class="ph codeph">gar:accum-matches()</code>
 								function on each non-matching line whose preceding match is <code class="ph codeph">do()</code>,
 								summing it all up in the end.</p>
             <p class="p">See formatted solution code on GitHub:
-		<a class="xref" href="https://github.com/arkadianriver/AoC-2024/blob/main/src/xsl/day-03.xsl#L119" target="_blank" rel="external noopener">solution-part-2, line 119</a>.</p>
+		<a class="xref" href="https://github.com/arkadianriver/AoC-2024/blob/main/src/xsl/day-03.xsl#L138" target="_blank" rel="external noopener">solution-part-2, line 138</a>.</p>
             <p class="p">
                <strong class="ph b">Solution to the test data set</strong>
             </p>
