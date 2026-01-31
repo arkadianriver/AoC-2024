@@ -26,7 +26,7 @@
 							<title>Discussion</title>
 							<p>Looks like a regular expression task. Doing this in perl, it's a snap:</p>
 							<codeblock>perl -0ne '$ttl = 0; while (/mul\((\d{1,3}),(\d{1,3})\)/g) { $ttl += $1 * $2 }; print qq(Total: $ttl\n);' src/data/03/actual.txt
-Total: 134129800
+Total: 178538786
 							</codeblock>
 							<p>I know xslt and xpath have great support for regular expressions, so lemme quickly look up the syntax for this.</p>
 						</section>
