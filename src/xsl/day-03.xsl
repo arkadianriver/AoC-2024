@@ -34,7 +34,7 @@ Total: 134129800
 							<title>Solution</title>
 							<xsl:call-template name="print-solution-code">
 								<xsl:with-param name="solution-name" select="'solution-part-1'"/>
-								<xsl:with-param name="linenum" select="'70'"/>
+								<xsl:with-param name="linenum" select="'72'"/>
 							</xsl:call-template>
 							<xsl:call-template name="solution-part-1"/>
 							<xsl:call-template name="solution-part-1">
@@ -69,7 +69,7 @@ Total: 134129800
 
 	<!-- PART 1 -->
 
-	<xsl:template name="solution-part-1"><!-- /mul\((\d{1,3}),(\d{1,3})\)/g -->
+	<xsl:template name="solution-part-1"><!-- /mul\((\d{1,3}),(\d{1,3})\)/gs -->
 		<xsl:param name="dataset-name" select="'test'"/>
 		<xsl:variable name="data-doc" select="unparsed-text('file:///'||$srcdir||'/data/'||$day||'/'||$dataset-name||'.txt')"/>
 		<xsl:variable name="matches" select="analyze-string($data-doc, 'mul\((\d{1,3}),(\d{1,3})\)', 's')"/>
