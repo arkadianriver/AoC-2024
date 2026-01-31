@@ -18,17 +18,53 @@ Total: 178538786
          </section>
          <section class="section"><h3 class="title sectiontitle">Solution</h3>
             
+            <p class="p">I had this all in one template until I ended up using this same match function
+								for part 2. Here's the guts of the match function:
+							</p>
             <p class="p">See formatted solution code on GitHub:
-		<a class="xref" href="https://github.com/arkadianriver/AoC-2024/blob/main/src/xsl/day-03.xsl#L72" target="_blank" rel="external noopener">solution-part-1, line 72</a>.</p>
+		<a class="xref" href="https://github.com/arkadianriver/AoC-2024/blob/main/src/xsl/day-03.xsl#L91" target="_blank" rel="external noopener">gar:accum-matches, line 91</a>.</p>
+            <p class="p">And here's the calling template:</p>
+            <p class="p">See formatted solution code on GitHub:
+		<a class="xref" href="https://github.com/arkadianriver/AoC-2024/blob/main/src/xsl/day-03.xsl#L106" target="_blank" rel="external noopener">solution-part-1, line 106</a>.</p>
+            <p class="p">I added a bit more to the test data, particularly to test part 2.</p>
             <p class="p">
                <strong class="ph b">Solution to the test data set</strong>
             </p>
-            <pre class="pre codeblock"><code>161</code></pre>
+            <pre class="pre codeblock"><code>181</code></pre>
             <p class="p">
                <strong class="ph b">Solution to the actual data set</strong>
             </p>
             <pre class="pre codeblock"><code>178538786</code></pre>
             <p class="p">TIL a convenient use for the <code class="ph codeph">for-each-pair</code> function.</p>
+         </section>
+      </div>
+   </article>
+   <article class="topic nested1" aria-labelledby="ariaid-title3" id="aoc-day-03-2">
+      <h2 class="title topictitle2" id="ariaid-title3">Day 03, part 2</h2>
+      <div class="body">
+         <section class="section"><h3 class="title sectiontitle">Discussion</h3>
+            
+            <p class="p"></p>
+         </section>
+         <section class="section"><h3 class="title sectiontitle">Solution</h3>
+            
+            <p class="p">For each <code class="ph codeph">do()</code> line, it uses the same match function as part 1.</p>
+            <p class="p">See formatted solution code on GitHub:
+		<a class="xref" href="https://github.com/arkadianriver/AoC-2024/blob/main/src/xsl/day-03.xsl#L91" target="_blank" rel="external noopener">gar:accum-matches, line 91</a>.</p>
+            <p class="p">The solution first tests if there's a line before a <code class="ph codeph">do</code>
+								or <code class="ph codeph">don't</code> function, then runs the <code class="ph codeph">gar:accum-matches</code>
+								function on each non-matching line whose preceding match is <code class="ph codeph">do()</code>,
+								summing it all up in the end.</p>
+            <p class="p">See formatted solution code on GitHub:
+		<a class="xref" href="https://github.com/arkadianriver/AoC-2024/blob/main/src/xsl/day-03.xsl#L119" target="_blank" rel="external noopener">solution-part-2, line 119</a>.</p>
+            <p class="p">
+               <strong class="ph b">Solution to the test data set</strong>
+            </p>
+            <pre class="pre codeblock"><code>53</code></pre>
+            <p class="p">
+               <strong class="ph b">Solution to the actual data set</strong>
+            </p>
+            <pre class="pre codeblock"><code>102467299</code></pre>
          </section>
       </div>
    </article>

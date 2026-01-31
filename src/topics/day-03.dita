@@ -19,18 +19,57 @@ Total: 178538786
          </section>
          <section>
             <title>Solution</title>
+            <p>I had this all in one template until I ended up using this same match function
+								for part 2. Here's the guts of the match function:
+							</p>
             <p>See formatted solution code on GitHub:
 		<xref scope="external"
-                     href="https://github.com/arkadianriver/AoC-2024/blob/main/src/xsl/day-03.xsl#L72">solution-part-1, line 72</xref>.</p>
+                     href="https://github.com/arkadianriver/AoC-2024/blob/main/src/xsl/day-03.xsl#L91">gar:accum-matches, line 91</xref>.</p>
+            <p>And here's the calling template:</p>
+            <p>See formatted solution code on GitHub:
+		<xref scope="external"
+                     href="https://github.com/arkadianriver/AoC-2024/blob/main/src/xsl/day-03.xsl#L106">solution-part-1, line 106</xref>.</p>
+            <p>I added a bit more to the test data, particularly to test part 2.</p>
             <p>
                <b>Solution to the test data set</b>
             </p>
-            <codeblock>161</codeblock>
+            <codeblock>181</codeblock>
             <p>
                <b>Solution to the actual data set</b>
             </p>
             <codeblock>178538786</codeblock>
             <p>TIL a convenient use for the <codeph>for-each-pair</codeph> function.</p>
+         </section>
+      </body>
+   </topic>
+   <topic id="aoc-day-03-2">
+      <title>Day 03, part 2</title>
+      <body>
+         <section>
+            <title>Discussion</title>
+            <p/>
+         </section>
+         <section>
+            <title>Solution</title>
+            <p>For each <codeph>do()</codeph> line, it uses the same match function as part 1.</p>
+            <p>See formatted solution code on GitHub:
+		<xref scope="external"
+                     href="https://github.com/arkadianriver/AoC-2024/blob/main/src/xsl/day-03.xsl#L91">gar:accum-matches, line 91</xref>.</p>
+            <p>The solution first tests if there's a line before a <codeph>do</codeph>
+								or <codeph>don't</codeph> function, then runs the <codeph>gar:accum-matches</codeph>
+								function on each non-matching line whose preceding match is <codeph>do()</codeph>,
+								summing it all up in the end.</p>
+            <p>See formatted solution code on GitHub:
+		<xref scope="external"
+                     href="https://github.com/arkadianriver/AoC-2024/blob/main/src/xsl/day-03.xsl#L119">solution-part-2, line 119</xref>.</p>
+            <p>
+               <b>Solution to the test data set</b>
+            </p>
+            <codeblock>53</codeblock>
+            <p>
+               <b>Solution to the actual data set</b>
+            </p>
+            <codeblock>102467299</codeblock>
          </section>
       </body>
    </topic>

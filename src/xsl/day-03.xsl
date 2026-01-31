@@ -32,10 +32,19 @@ Total: 178538786
 						</section>
 						<section>
 							<title>Solution</title>
+							<p>I had this all in one template until I ended up using this same match function
+								for part 2. Here's the guts of the match function:
+							</p>
+							<xsl:call-template name="print-solution-code">
+								<xsl:with-param name="solution-name" select="'gar:accum-matches'"/>
+								<xsl:with-param name="linenum" select="'91'"/>
+							</xsl:call-template>
+							<p>And here's the calling template:</p>
 							<xsl:call-template name="print-solution-code">
 								<xsl:with-param name="solution-name" select="'solution-part-1'"/>
-								<xsl:with-param name="linenum" select="'72'"/>
+								<xsl:with-param name="linenum" select="'106'"/>
 							</xsl:call-template>
+							<p>I added a bit more to the test data, particularly to test part 2.</p>
 							<xsl:call-template name="solution-part-1"/>
 							<xsl:call-template name="solution-part-1">
 								<xsl:with-param name="dataset-name" select="'actual'"/>
@@ -44,7 +53,7 @@ Total: 178538786
 						</section>
 					</body>
 				</topic>
-				<!-- <topic id="aoc-day-{$day}-2">
+				<topic id="aoc-day-{$day}-2">
 					<title>Day <xsl:value-of select="$day"/>, part 2</title>
 					<body>
 						<section>
@@ -53,27 +62,36 @@ Total: 178538786
 						</section>
 						<section>
 							<title>Solution</title>
+							<p>For each <codeph>do()</codeph> line, it uses the same match function as part 1.</p>
 							<xsl:call-template name="print-solution-code">
-								<xsl:with-param name="part" select="'1'"/>
+								<xsl:with-param name="solution-name" select="'gar:accum-matches'"/>
+								<xsl:with-param name="linenum" select="'91'"/>
 							</xsl:call-template>
-							<xsl:call-template name="solution-part-1"/>
-							<xsl:call-template name="solution-part-1">
+							<p>The solution first tests if there's a line before a <codeph>do</codeph>
+								or <codeph>don't</codeph> function, then runs the <codeph>gar:accum-matches</codeph>
+								function on each non-matching line whose preceding match is <codeph>do()</codeph>,
+								summing it all up in the end.</p>
+							<xsl:call-template name="print-solution-code">
+								<xsl:with-param name="solution-name" select="'solution-part-2'"/>
+								<xsl:with-param name="linenum" select="'119'"/>
+							</xsl:call-template>
+							<xsl:call-template name="solution-part-2"/>
+							<xsl:call-template name="solution-part-2">
 								<xsl:with-param name="dataset-name" select="'actual'"/>
 							</xsl:call-template>
 						</section>
 					</body>
-				</topic> -->
+				</topic>
 			</topic>
 		</xsl:result-document>
 	</xsl:template>
 
 	<!-- PART 1 -->
 
-	<xsl:template name="solution-part-1"><!-- /mul\((\d{1,3}),(\d{1,3})\)/gs -->
-		<xsl:param name="dataset-name" select="'test'"/>
-		<xsl:variable name="data-doc" select="unparsed-text('file:///'||$srcdir||'/data/'||$day||'/'||$dataset-name||'.txt')"/>
-		<xsl:variable name="matches" select="analyze-string($data-doc, 'mul\((\d{1,3}),(\d{1,3})\)', 's')"/>
-		<xsl:variable name="products-sum" select="
+	<xsl:function name="gar:accum-matches" as="xs:double">
+		<xsl:param name="the-string"/>
+		<xsl:variable name="matches" select="analyze-string($the-string, 'mul\((\d{1,3}),(\d{1,3})\)', 's')"/>
+		<xsl:value-of select="
 			sum(
 				for-each-pair(
 					$matches/xf:match/xf:group[@nr='1'],
@@ -83,6 +101,12 @@ Total: 178538786
 					})
 			)
 		"/>
+	</xsl:function>
+
+	<xsl:template name="solution-part-1"><!-- /mul\((\d{1,3}),(\d{1,3})\)/gs -->
+		<xsl:param name="dataset-name" select="'test'"/>
+		<xsl:variable name="data-doc" select="unparsed-text('file:///'||$srcdir||'/data/'||$day||'/'||$dataset-name||'.txt')"/>
+		<xsl:variable name="products-sum" select="gar:accum-matches($data-doc)"/>
 		<p><b>Solution to the <xsl:value-of select="$dataset-name"/> data set</b></p>
 		<codeblock>
 			<xsl:value-of select="format-number($products-sum, '#') (: the format prevents scientific notation :)"/>
@@ -92,14 +116,26 @@ Total: 178538786
 
 	<!-- PART 2 -->
 
-	<!-- <xsl:template name="solution-part-2">
+	<xsl:template name="solution-part-2">
 		<xsl:param name="dataset-name" select="'test'"/>
 		<xsl:variable name="data-doc" select="unparsed-text('file:///'||$srcdir||'/data/'||$day||'/'||$dataset-name||'.txt')"/>
-		<xsl:variable name="answer" select=""/>
+		<xsl:variable name="ddt-matches" select="analyze-string($data-doc, '(do\(\)|don''t\(\))', 's')"/>
+		 <xsl:variable name="solution" select="
+		 	if ($ddt-matches[child::*[1][self::xf:non-match]]) then
+				sum((
+					gar:accum-matches($ddt-matches/xf:non-match[1]),
+					for-each($ddt-matches/xf:non-match[preceding-sibling::xf:match[1]/xf:group[@nr='1'] = 'do()'], function($arg) { gar:accum-matches($arg) })
+				))
+			else
+				sum((
+					for-each($ddt-matches/xf:non-match[preceding-sibling::xf:match[1]/xf:group[@nr='1'] = 'do()'], function($arg) { gar:accum-matches($arg) })
+				))
+
+		 "/>
 		<p><b>Solution to the <xsl:value-of select="$dataset-name"/> data set</b></p>
 		<codeblock>
-	    	<xsl:value-of select="$answer"/>
+			<xsl:copy-of select="format-number($solution, '#') (: the format prevents scientific notation :)"/>
 		</codeblock>
-	</xsl:template> -->
+	</xsl:template>
 
 </xsl:stylesheet>
