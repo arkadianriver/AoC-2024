@@ -24,8 +24,8 @@ case $1 in
 	-d)
 		rm -r docs
 		dita -i src/aoc-2024.ditamap -f html5 -v -l tmp/out.log -o docs \
-		     --html5.toc.generate=no --nav-toc=full --args.output.base=aoc-2024 --args.copycss=yes --args.cssroot=$thisdir/src --args.css=aoc.css \
-		     -Dday=$2
+		     --html5.toc.generate=no --nav-toc=full --args.output.base=aoc-2024 --args.copycss=yes --args.cssroot=$thisdir/src --args.css=aoc.css --args.hdf=$thisdir/src/hdf.xml \
+			 -Dday=$2
 		touch docs/.nojekyll
 		;;
 	*)	#printf 'usage: build [-i|-d <day>]\nwhere:\n  -i       re-installs an updated plugin\n  -d <day> runs XSL for that day\n'
