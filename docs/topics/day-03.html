@@ -1,0 +1,35 @@
+<!DOCTYPE html
+  SYSTEM "about:legacy-compat">
+<html lang="en"><head><meta charset="UTF-8"><meta name="copyright" content="(C) Copyright 2026"><meta name="generator" content="DITA-OT"><meta name="description" content="Problem statement on the web."><title>Day 03</title><link rel="stylesheet" type="text/css" href="../commonltr.css"><link rel="stylesheet" type="text/css" href="../aoc.css"></head><body id="aoc-day-03"><nav class="toc" role="navigation"><ul><li><a href="../index.html">Advent of Code 2024</a></li><li><a href="../topics/day-01.html">Day 01</a></li><li><a href="../topics/day-02.html">Day 02</a></li><li class="active"><a href="../topics/day-03.html">Day 03</a></li></ul></nav><main role="main"><article role="article" aria-labelledby="ariaid-title1">
+   <h1 class="title topictitle1" id="ariaid-title1">Day 03</h1>
+   
+   <div class="body"><p class="shortdesc">
+      <a class="xref" href="https://adventofcode.com/2024/day/3" target="_blank" rel="external noopener">Problem statement on the web</a>.</p></div>
+   <article class="topic nested1" aria-labelledby="ariaid-title2" id="aoc-day-03-1">
+      <h2 class="title topictitle2" id="ariaid-title2">Day 03, part 1</h2>
+      <div class="body">
+         <section class="section"><h3 class="title sectiontitle">Discussion</h3>
+            
+            <p class="p">Looks like a regular expression task. Doing this in perl, it's a snap:</p>
+            <pre class="pre codeblock"><code>perl -0ne '$ttl = 0; for (/mul\((\d{1,3}),(\d{1,3})\)/g) { $ttl += $1 * $2 }; print qq(Total: $ttl\n);' src/data/03/actual.txt
+Total: 134129800
+							</code></pre>
+            <p class="p">I know xslt and xpath have great support for regular expressions, so lemme quickly look up the syntax for this.</p>
+         </section>
+         <section class="section"><h3 class="title sectiontitle">Solution</h3>
+            
+            <p class="p">See formatted solution code on GitHub:
+		<a class="xref" href="https://github.com/arkadianriver/AoC-2024/blob/main/src/xsl/day-03.xsl#L70" target="_blank" rel="external noopener">solution-part-1, line 70</a>.</p>
+            <p class="p">
+               <strong class="ph b">Solution to the test data set</strong>
+            </p>
+            <pre class="pre codeblock"><code>161</code></pre>
+            <p class="p">
+               <strong class="ph b">Solution to the actual data set</strong>
+            </p>
+            <pre class="pre codeblock"><code>178538786</code></pre>
+            <p class="p">TIL a convenient use for the <code class="ph codeph">for-each-pair</code> function.</p>
+         </section>
+      </div>
+   </article>
+</article></main></body></html>
